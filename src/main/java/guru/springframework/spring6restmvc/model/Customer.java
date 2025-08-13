@@ -3,7 +3,6 @@ package guru.springframework.spring6restmvc.model;
 import lombok.Builder;
 import lombok.Data;
 
-import java.rmi.registry.LocateRegistry;
 import java.time.LocalDateTime;
 import java.util.UUID;
 

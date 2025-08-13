@@ -1,6 +1,5 @@
 package guru.springframework.spring6restmvc.services;
 
-import guru.springframework.spring6restmvc.model.Beer;
 import guru.springframework.spring6restmvc.model.Customer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -12,7 +11,7 @@ import java.util.*;
 @Slf4j
 public class CustomerServiceImpl implements CustomerService {
 
-    private Map<UUID, Customer> customerMap;
+    private final Map<UUID, Customer> customerMap;
 
     public CustomerServiceImpl() {
         customerMap = new HashMap<>();
@@ -56,5 +55,21 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer getCustomerById(UUID id) {
         log.debug("In get customer by id: " + id);
         return customerMap.get(id);
+    }
+
+    @Override
+    public Customer createCustomer(Customer customer) {
+
+        Customer savedCustomer = Customer.builder()
+                .id(UUID.randomUUID())
+                .customerName(customer.getCustomerName())
+                .version(customer.getVersion())
+                .createdDate(LocalDateTime.now())
+                .lastModifiedDate(LocalDateTime.now())
+                .build();
+
+        customerMap.put(savedCustomer.getId(), savedCustomer);
+
+        return savedCustomer;
     }
 }
