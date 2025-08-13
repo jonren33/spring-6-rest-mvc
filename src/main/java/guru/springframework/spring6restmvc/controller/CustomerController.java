@@ -64,7 +64,7 @@ public class CustomerController {
 
     @DeleteMapping("{customerId}")
     public ResponseEntity deleteCustomer(@PathVariable("customerId") UUID customerId) {
-        log.debug("Update Customer - in controller");
+        log.debug("Delete Customer - in controller");
 
         customerService.deleteCustomer(customerId);
 
@@ -72,6 +72,18 @@ public class CustomerController {
 //        headers.add("Location", "/api/v1/customer/" + updatedCustomer.getId().toString());
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    @PatchMapping("{customerId}")
+    public ResponseEntity patchCustomer(@PathVariable("customerId") UUID customerId, @RequestBody Customer customer) {
+        log.debug("Patch Customer - in controller");
+
+        Customer patchedCustomer = customerService.patchCustomer(customerId, customer);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", "/api/v1/customer/" + patchedCustomer.getId().toString());
+
+        return new ResponseEntity(headers, HttpStatus.NO_CONTENT);
     }
 
 
