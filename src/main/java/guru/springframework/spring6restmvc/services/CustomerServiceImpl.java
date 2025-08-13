@@ -83,8 +83,6 @@ public class CustomerServiceImpl implements CustomerService {
         existingCustomer.setVersion(customer.getVersion());
         existingCustomer.setLastModifiedDate(LocalDateTime.now());
 
-        customerMap.put(existingCustomer.getId(), existingCustomer);
-
         return existingCustomer;
     }
 
@@ -107,8 +105,6 @@ public class CustomerServiceImpl implements CustomerService {
         }
 
         existingCustomer.setLastModifiedDate(LocalDateTime.now());
-
-        customerMap.put(existingCustomer.getId(), existingCustomer);
 
         return existingCustomer;
 
