@@ -62,4 +62,17 @@ public class CustomerController {
         return new ResponseEntity(headers, HttpStatus.NO_CONTENT);
     }
 
+    @DeleteMapping("{customerId}")
+    public ResponseEntity deleteCustomer(@PathVariable("customerId") UUID customerId) {
+        log.debug("Update Customer - in controller");
+
+        customerService.deleteCustomer(customerId);
+
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add("Location", "/api/v1/customer/" + updatedCustomer.getId().toString());
+
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+
 }
