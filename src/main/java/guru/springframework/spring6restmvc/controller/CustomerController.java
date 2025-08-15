@@ -1,6 +1,6 @@
 package guru.springframework.spring6restmvc.controller;
 
-import guru.springframework.spring6restmvc.model.Customer;
+import guru.springframework.spring6restmvc.model.CustomerDTO;
 import guru.springframework.spring6restmvc.services.CustomerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -27,13 +26,13 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @GetMapping(CUSTOMER_PATH)
-    public List<Customer> listCustomers(){
+    public List<CustomerDTO> listCustomers(){
 
         return customerService.listCustomers();
     }
 
     @GetMapping(CUSTOMER_PATH_ID)
-    public Customer getCustomerById(@PathVariable("customerId") UUID customerId){
+    public CustomerDTO getCustomerById(@PathVariable("customerId") UUID customerId){
 
         log.debug("Get Customer by Id - in controller");
 
@@ -41,25 +40,25 @@ public class CustomerController {
     }
 
     @PostMapping(CUSTOMER_PATH)
-    public ResponseEntity createCustomer(@RequestBody Customer customer) {
+    public ResponseEntity createCustomer(@RequestBody CustomerDTO customerDTO) {
         log.debug("Create Customer - in controller");
 
-        Customer savedCustomer = customerService.createCustomer(customer);
+        CustomerDTO savedCustomerDTO = customerService.createCustomer(customerDTO);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", CUSTOMER_PATH + "/" + savedCustomer.getId().toString());
+        headers.add("Location", CUSTOMER_PATH + "/" + savedCustomerDTO.getId().toString());
 
         return new ResponseEntity(headers, HttpStatus.CREATED);
     }
 
     @PutMapping(CUSTOMER_PATH_ID)
-    public ResponseEntity updateCustomer(@PathVariable("customerId") UUID customerId, @RequestBody Customer customer) {
+    public ResponseEntity updateCustomer(@PathVariable("customerId") UUID customerId, @RequestBody CustomerDTO customerDTO) {
         log.debug("Update Customer - in controller");
 
-        Customer updatedCustomer = customerService.updateCustomer(customerId, customer);
+        CustomerDTO updatedCustomerDTO = customerService.updateCustomer(customerId, customerDTO);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", CUSTOMER_PATH + "/" + updatedCustomer.getId().toString());
+        headers.add("Location", CUSTOMER_PATH + "/" + updatedCustomerDTO.getId().toString());
 
         return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
     }
@@ -74,13 +73,13 @@ public class CustomerController {
     }
 
     @PatchMapping(CUSTOMER_PATH_ID)
-    public ResponseEntity patchCustomer(@PathVariable("customerId") UUID customerId, @RequestBody Customer customer) {
+    public ResponseEntity patchCustomer(@PathVariable("customerId") UUID customerId, @RequestBody CustomerDTO customerDTO) {
         log.debug("Patch Customer - in controller");
 
-        Customer patchedCustomer = customerService.patchCustomer(customerId, customer);
+        CustomerDTO patchedCustomerDTO = customerService.patchCustomer(customerId, customerDTO);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", CUSTOMER_PATH + "/" + patchedCustomer.getId().toString());
+        headers.add("Location", CUSTOMER_PATH + "/" + patchedCustomerDTO.getId().toString());
 
         return new ResponseEntity(headers, HttpStatus.NO_CONTENT);
     }
