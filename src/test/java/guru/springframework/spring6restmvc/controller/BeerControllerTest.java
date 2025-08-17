@@ -150,7 +150,7 @@ class BeerControllerTest {
     }
 
     @Test
-    void testCreateBeerNullBeerName() throws Exception {
+    void testCreateBeerValidationErrors() throws Exception {
 
         BeerDTO beerDTO = BeerDTO.builder().build();
 
