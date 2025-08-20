@@ -1,5 +1,6 @@
 package guru.springframework.spring6restmvc.services;
 
+import guru.springframework.spring6restmvc.entities.Customer;
 import guru.springframework.spring6restmvc.mappers.CustomerMapper;
 import guru.springframework.spring6restmvc.model.CustomerDTO;
 import guru.springframework.spring6restmvc.repositories.CustomerRepository;
@@ -45,17 +46,15 @@ public class CustomerServiceJPA implements CustomerService {
 
     @Override
     public Optional<CustomerDTO> updateCustomerById(UUID customerId, CustomerDTO customer) {
-        AtomicReference<Optional<CustomerDTO>> atomicReference = new AtomicReference<>();
+        Optional<Customer> optionalExistingCustomer = customerRepository.findById(customerId);
 
-        customerRepository.findById(customerId).ifPresentOrElse(foundCustomer -> {
-            foundCustomer.setName(customer.getName());
-            atomicReference.set(Optional.of(customerMapper
-                    .customerToCustomerDto(customerRepository.save(foundCustomer))));
-        }, () -> {
-            atomicReference.set(Optional.empty());
-        });
+        if (optionalExistingCustomer.isPresent()) {
+            Customer existingCustomer = optionalExistingCustomer.get();
+            existingCustomer.setName(customer.getName());
+            return Optional.of(customerMapper.customerToCustomerDto(customerRepository.save(existingCustomer)));
+        }
 
-        return atomicReference.get();
+        return Optional.empty();
     }
 
     @Override
