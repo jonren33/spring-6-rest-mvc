@@ -59,4 +59,21 @@ class BeerRepositoryTest {
         assertThat(savedBeer).isNotNull();
         assertThat(savedBeer.getId()).isNotNull();
     }
+
+    @Test
+    void findAllByBeerNameIsLikeIgnoreCaseAndUpcIsLikeIgnoreCaseAndBeerStyleAndPriceGreaterThan() {
+        List<Beer> list = beerRepository.findAllByBeerNameIsLikeIgnoreCaseAndUpcIsLikeIgnoreCaseAndBeerStyleAndPriceGreaterThan("%IPA%","%1%",
+                BeerStyle.IPA, BigDecimal.valueOf(9));
+
+        assertThat(list.size()).isEqualTo(180);
+    }
+
+    @Test
+    void findAllByBeerNameIsLikeIgnoreCaseAndUpcIsLikeIgnoreCaseAndBeerStyleAndPriceGreaterThanAndPriceLessThan() {
+        List<Beer> list = beerRepository.findAllByBeerNameIsLikeIgnoreCaseAndUpcIsLikeIgnoreCaseAndBeerStyleAndPriceGreaterThanAndPriceLessThan("%IPA%","%1%",
+                BeerStyle.IPA, BigDecimal.valueOf(9), BigDecimal.valueOf(11));
+
+        assertThat(list.size()).isEqualTo(180);
+    }
+
 }
